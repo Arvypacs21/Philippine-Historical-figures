@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">  
+  <title>Recently Viewed Heroes</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Cormorant+Garamond:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    html, body {
+      height: 100%;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      display: flex;
+      flex-direction: column;
+      font-family: 'Cormorant Garamond', serif;
+      background: linear-gradient(135deg, #f6f4f4, #f9f4f4);
+      color: #3c371a;
+      text-align: center;
+    }
+
+    .navbar {
+      background-color: #4a3728;
+      padding: 10px 20px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      text-align: start;
+    }
+
+    .navbar a {
+      color: #fce8b2;
+      text-decoration: none;
+      margin: 0 15px;
+      font-family: 'Cinzel', serif;
+      font-size: 16px;
+      transition: all 0.3s ease;
+    }
+
+    .navbar a:hover {
+      color: #f3d89f;
+      text-decoration: underline;
+      transform: translateY(-2px);
+    }
+
+    main {
+      flex: 1;
+      padding-bottom: 20px;
+    }
+
+    h1 {
+      font-family: 'Cinzel', serif;
+      margin-top: 50px;
+    }
+
+    select {
+      padding: 10px;
+      font-size: 1.1rem;
+      border-radius: 8px;
+      border: none;
+      margin-top: 30px;
+      background-color: #5a0508;
+      color: #f6e1e4;
+      font-family: 'Cormorant Garamond', serif;
+    }
+
+    select option {
+      background-color: #491919;
+      color: #f1e6e6;
+    }
+
+    .message {
+      margin-top: 20px;
+      font-size: 1rem;
+      color: #f1ede8;
+    }
+
+    footer {
+      background-color: #3d2614;
+      color: #f8d6b3;
+      text-align: center;
+      padding: 20px;
+      font-family: 'Cormorant Garamond', serif;
+    }
+  </style>
+</head>
+<body>
+  <div class="navbar">
+    <a href="homepage.html"><i class="fas fa-home"></i> Home</a>
+    <a href="historicalwebsite2.html"><i class='far fa-flag'></i>Top 10</a>
+    <a href="about us.html"><i class="fas fa-info-circle"></i> About Us</a>
+    <a href="recent.html" id="recent-btn"><i class="fas fa-clock"></i> Recent</a>
+    <a href="ratings.html"><i class="fas fa-star"></i> Ratings</a>
+  </div> 
+
+  <main>
+    <h1>Recently Viewed Heroes</h1>
+    <select id="recentList">
+      <option disabled selected>Select a recently viewed hero</option>
+    </select>
+
+    <div class="message" id="noRecentMessage"></div>
+  </main>
+
+  <footer>
+    &copy; 2025 Philippine Heroes Archive. All rights reserved.
+  </footer>
+
+  <script>
+    const recentList = document.getElementById("recentList");
+    const message = document.getElementById("noRecentMessage");
+
+    let recentHeroes = JSON.parse(localStorage.getItem("recentHeroes")) || [];
+
+    if (recentHeroes.length === 0) {
+      message.textContent = "No recently viewed biographies found.";
+    } else {
+      recentHeroes.slice().reverse().forEach(hero => {
+        let option = document.createElement("option");
+        option.text = hero.replace(".html", "").replace(/^\w/, c => c.toUpperCase());
+        option.value = hero;
+        recentList.appendChild(option);
+        console.log("Added hero: ", hero);
+      });
+
+      recentList.addEventListener("change", function () {
+        if (this.value) {
+          console.log("Redirecting to: ", this.value);
+          window.location.href = this.value;
+        }
+      });
+    }
+  </script>
+</body>
+</html>
